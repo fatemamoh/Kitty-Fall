@@ -45,7 +45,7 @@ body {
 
 
 
-#click-message {
+#clickMessage {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -92,7 +92,7 @@ body {
     border-radius: 10px;
 }
 
-#play-again {
+#playAgain {
 
     font-family: "Press Start 2P";
     background-color: rgb(207, 119, 214);
@@ -104,3 +104,11 @@ body {
     border: 1px solid rgb(39, 4, 41);
     border-radius: 8px;
 }
+
+#score {
+    font-family: "Press Start 2P";
+    color: rgb(146, 22, 155);
+    margin: 20px 20px;
+    font-size: 20px;
+}
+

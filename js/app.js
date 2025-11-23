@@ -4,6 +4,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gravity = 0.5;
 const jumping = -8;
+const pipes = [];
 /*-------------------------------- Variables --------------------------------*/
 //character 
 let cat = {
@@ -14,6 +15,7 @@ let cat = {
     dy: 0
 };
 
+
 let running = false;
 let gameOver = false;
 let score = 0;
@@ -23,8 +25,9 @@ const gameScreen = document.querySelector('#gameScreen');
 const startBtnEl = document.querySelector('#start');
 const gameOverBox = document.querySelector('#gameOverBox');
 const gameOverMessageEl = document.querySelector('#gameOverMessage');
-const playAgainBtnEl = document.querySelector('#play-again');
-const clickMessageEl = document.querySelector('#click-message')
+const playAgainBtnEl = document.querySelector('#playAgain');
+const clickMessageEl = document.querySelector('#clickMessage');
+const scoreEl = document.querySelector('#score');
 /*-------------------------------- Functions --------------------------------*/
 function showGameOver() {
     gameOverBox.style.display = 'block';
@@ -40,6 +43,46 @@ function showClickMessage() {
 function hideClickMessage() {
     clickMessageEl.style.display = 'none';
 }
+
+function createPipe() {
+    const width = 50;
+    const minGap = 140;
+    const maxGap = 180;
+    const gapHeight = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+    const minY = 50;
+    const maxY = canvas.height - gapHeight - 50;
+    const gapY = Math.floor(Math.random() * (maxY - minY + 1) + minY);
+
+    const pipe = {
+        x: canvas.width,
+        width: width,
+        gapY: gapY,
+        gapHeight: gapHeight,
+        speed: 3
+    };
+    pipes.push(pipe);
+
+}
+
+function updatePipes() {
+    pipes.forEach((pipe, index) => {
+        pipe.x -= pipe.speed;
+
+        if (pipe.x + pipe.width < 0) {
+            pipes.splice(index, 1);
+        }
+    });
+}
+
+function drawPipes() {
+    ctx.fillStyle = 'rgb(39, 4, 41)';
+    pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipe.width, pipe.gapY);
+        ctx.fillRect(pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - (pipe.gapY + pipe.gapHeight));
+    });
+}
+
 
 function drawCat() {
     ctx.fillStyle = 'purple';
@@ -71,11 +114,28 @@ function updateCat() {
         showGameOver();
 
     }
-
 }
 
+function checkCollision() {
+    pipes.forEach(pipe => {
+        const hitX = cat.x + cat.width > pipe.x && cat.x < pipe.x + pipe.width;
+        const hitTop = cat.y < pipe.gapY;
+        const hitBottom = cat.y + cat.height > pipe.gapY + pipe.gapHeight;
 
+        if (hitX && (hitTop || hitBottom)) {
+            gameOver = true;
+            running = false;
+            showGameOver();
+        }
+    });
+}
 
+function scoreUpdate(){
+    if(cat.x + cat.width < pipes.x ){
+        score ++; 
+     
+    }
+}
 
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -83,13 +143,21 @@ function gameLoop() {
     if (running) {
         updateCat();
         drawCat();
+        updatePipes();
+        drawPipes();
+        checkCollision();
         requestAnimationFrame(gameLoop);
+        if (pipes.length === 0 || pipes[pipes.length - 1].x < canvas.width - 250) {
+            createPipe();
 
-    }
-    else if (gameOver) {
-        drawCat();
+        }
+
+        else if (gameOver) {
+            drawCat();
+        }
     }
 };
+
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -97,13 +165,17 @@ startBtnEl.addEventListener('click', () => {
     startBtnEl.style.display = 'none';
     homeScreen.style.display = 'none';
     gameScreen.style.display = 'flex';
-    clickMessageEl.style.display = 'block'; // show overlay message
+    clickMessageEl.style.display = 'block';
+    drawCat();
+    drawPipes();
 });
 
 clickMessageEl.addEventListener('click', () => {
     hideClickMessage();
     cat.y = 190;
     cat.dy = 0;
+    pipes.length = 0;
+    createPipe();
     gameOver = false;
     running = true;
     gameLoop();
@@ -134,6 +206,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 
-document.addEventListener('mousedown', (e) => {
+document.addEventListener('mousedown', () => {
     if (running) jump();
 });
