@@ -11,9 +11,10 @@ body {
     margin: 0;
     background-color: #f8d5c0;
     cursor: url('/kitty-phantom-project/assets/cursorSmall.png'), auto;
-    background-repeat: no-repeat;
+   background-image: url("/kitty-phantom-project/assets/leaves.gif");
+    background-repeat: repeat-x;
     background-position: left;
-    background-size: cover;
+    background-size: contain;
     background-attachment: fixed;
 }
 
@@ -186,9 +187,12 @@ body {
 .insruction {
     font-family: "Press Start 2P";
     background-color: #e6a23c;
-    margin: 30px;
-    padding: 10px 10px;
+    margin: 20px;
+    padding: 20px 20px;
     font-size: 15px;
+    /* width: fit-content; */
+    /* display: flex; */
+/* left: 500px; */
 }
 
 .tree {
