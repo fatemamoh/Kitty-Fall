@@ -5,13 +5,13 @@ const gravity = 0.5;
 const jumping = -8;
 // images upload:
 const backgroundImg = new Image();
-backgroundImg.src = '/kitty-phantom-project/assets/sunflower.jpg';
+backgroundImg.src = './assets/sunflower.jpg';
 
 const catImg = new Image();
-catImg.src = '/kitty-phantom-project/assets/orange.png'
+catImg.src = './assets/orange.png'
 
 const pipeImg = new Image();
-pipeImg.src = '/kitty-phantom-project/assets/pipes.purple.png'
+pipeImg.src = './assets/pipes.purple.png'
 
 /*-------------------------------- Variables --------------------------------*/
 let cat = {
@@ -42,6 +42,7 @@ const scoreEnd = document.querySelector('#score');
 /*-------------------------------- Functions --------------------------------*/
 function showGameOver() {
     gameOverBox.style.display = 'block';
+    drawScoreEnd();
 }
 
 function hideGameOver() {
@@ -73,14 +74,15 @@ function createPipe() {
         speed: 3,
         passed: false
     };
+
     pipes.push(pipe);
 
-    if (score >= 7) {
-        pipe.speed = 4
+     if (score >= 14) {
+        pipe.speed = 5
     }
 
-    if (score >= 14) {
-        pipe.speed = 5
+     else if (score >= 7) {
+        pipe.speed = 4
     }
 }
 
@@ -99,7 +101,6 @@ function updatePipes() {
 }
 
 function drawPipes() {
-    ctx.fillStyle = 'rgb(39, 4, 41)';
     pipes.forEach(pipe => {
         ctx.drawImage(pipeImg, pipe.x, 0, pipe.width, pipe.gapY);
         ctx.drawImage(pipeImg, pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - (pipe.gapY + pipe.gapHeight));
@@ -118,6 +119,7 @@ function jump() {
 }
 
 function updateCat() {
+        if (!running) return;
     cat.dy += gravity;
     cat.y += cat.dy;
 
