@@ -40,6 +40,9 @@ const playAgainBtnEl = document.querySelector('#playAgain');
 const clickMessageEl = document.querySelector('#clickMessage');
 const homeBtnEl = document.querySelector('#home')
 const scoreEnd = document.querySelector('#score');
+const insructionBtnEl = document.querySelector('.instruction')
+const instructionDivEl = document.querySelector('#instructionDiv')
+const closeBtnEl = document.querySelector('#closeBtnInstruction')
 /*-------------------------------- Functions --------------------------------*/
 function showGameOver() {
     gameOverBox.style.display = 'block';
@@ -55,6 +58,15 @@ function showClickMessage() {
 
 function hideClickMessage() {
     clickMessageEl.style.display = 'none';
+}
+
+function showInstructionDivEl(){
+    instructionDivEl.style.display ='flex'
+}
+
+function hideInstructionDiveEl(){
+        instructionDivEl.style.display ='none'
+
 }
 
 function createPipe() {
@@ -173,7 +185,7 @@ function gameLoop() {
     ctx.drawImage(backgroundImg, backGWidth, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImg, backGWidth + canvas.width, 0, canvas.width, canvas.height);
     backGWidth -= scrollSpeed;
-    
+
     scrollSpeed = 1.5 + score * 0.05;
 
     if (backGWidth <= -canvas.width) {
@@ -251,8 +263,17 @@ homeBtnEl.addEventListener('click', () => {
 
 });
 
+insructionBtnEl.addEventListener('click',showInstructionDivEl);
+
+closeBtnEl.addEventListener('click',hideInstructionDiveEl)
+instructionDivEl.addEventListener('click', (e) => {
+    if (e.target === instructionDivEl){
+        hideInstructionDiveEl();
+    }
+});
 
 document.addEventListener('keydown', (e) => {
+        if (instructionDivEl.style.display === 'flex') return;
     if (e.code === "Space" && clickMessageEl.style.display === 'block') {
         clickMessageEl.click();
     } else if (running) {
@@ -262,7 +283,10 @@ document.addEventListener('keydown', (e) => {
 
 
 document.addEventListener('mousedown', () => {
-    if (running) jump();
+    if (instructionDivEl.style.display === 'flex' || !running) return;
+    if (gameScreen.style.display === 'flex' && e.target === canvas) {
+        jump();
+    }
 });
 
 

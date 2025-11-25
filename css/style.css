@@ -146,10 +146,14 @@ body {
 
 .instructionContent {
     font-family: "Press Start 2P";
-    background-color: #fff9f0;
-    padding: 30px;
+    background-color: #f8d5c0;
+    background-image: url('../assets/heartyLeave.gif');
+    background-position:top;
+    background-size: 50px;
+    background-repeat: no-repeat;
+    padding: 20px;
     border-radius: 12px;
-    border: 2px solid #783511;
+    border: 3px solid #783511;
     width: 90%;
     max-width: 450px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
@@ -158,23 +162,36 @@ body {
 
 .titleInsruction{
 font-size: 14px;
-color: #3c1106;
-margin-top: 0;
+color: rgb(207, 112, 18);
+margin-top: 50px;
 margin-bottom: 20px;
-text-shadow: 1px 1px #e6a23c;
 }
     
 .textInstruction, .ruleInstruction{
-    font-size: none;
+    font-size: 12px;
     padding-left: 0;
     margin: 20px 0;
+            line-height: 1.9;
+            color: #853605;
+
 }
 
 .rules{
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #a54410;
     display: inline-block;
     min-width: 60px;
+    font-size: 12px;
+    text-align: left;
+            line-height: 2.2;
+
+}
+
+li {
+    font-size: 12px;
+        text-align: left;
+        line-height: 2.2;
+
 }
 
 .closeBtn{
