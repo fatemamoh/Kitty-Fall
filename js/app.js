@@ -3,6 +3,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gravity = 0.5;
 const jumping = -8;
+
 // images upload:
 const backgroundImg = new Image();
 backgroundImg.src = './assets/sunflower.jpg';
@@ -162,15 +163,17 @@ function collisionDetection() {
 }
 
 function drawScoreEnd() {
-    scoreEnd.innerText = (`score: ${score}`);
+    scoreEnd.innerText = (` Score: ${score}`);
 }
 
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (!running) return;
 
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImg, backGWidth, 0, canvas.width, canvas.height);
     ctx.drawImage(backgroundImg, backGWidth + canvas.width, 0, canvas.width, canvas.height);
     backGWidth -= scrollSpeed;
+    
     scrollSpeed = 1.5 + score * 0.05;
 
     if (backGWidth <= -canvas.width) {
