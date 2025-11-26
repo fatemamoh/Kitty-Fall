@@ -9,11 +9,17 @@ const backgroundImg = new Image();
 backgroundImg.src = './assets/sunflower.jpg';
 
 const catImg = new Image();
-catImg.src = './assets/orange.png'
+catImg.src = './assets/orange.png';
 
 const pipeImg = new Image();
-pipeImg.src = './assets/pipes.purple.png'
+pipeImg.src = './assets/pipes.purple.png';
 
+//sounds:
+const clickSound = new Audio('./assets/click.mp3');
+const catSound = new Audio('./assets/catSound.mp3');
+const GameMusic = new Audio('./assets/gameMusic.mp3');
+const jumpSound = new Audio('./assets/jump.mp3');
+const hitSound = new Audio('./assets/hitSound.mp3');
 /*-------------------------------- Variables --------------------------------*/
 let cat = {
     x: 60,
@@ -60,12 +66,14 @@ function hideClickMessage() {
     clickMessageEl.style.display = 'none';
 }
 
-function showInstructionDivEl(){
-    instructionDivEl.style.display ='flex'
+function showInstructionDivEl() {
+    instructionDivEl.style.display = 'flex'
+    clickSound.play();
 }
 
-function hideInstructionDiveEl(){
-        instructionDivEl.style.display ='none'
+function hideInstructionDiveEl() {
+    instructionDivEl.style.display = 'none'
+    clickSound.play();
 
 }
 
@@ -90,11 +98,11 @@ function createPipe() {
 
     pipes.push(pipe);
 
-     if (score >= 14) {
+    if (score >= 14) {
         pipe.speed = 5
     }
 
-     else if (score >= 7) {
+    else if (score >= 7) {
         pipe.speed = 4
     }
 }
@@ -132,7 +140,7 @@ function jump() {
 }
 
 function updateCat() {
-        if (!running) return;
+    if (!running) return;
     cat.dy += gravity;
     cat.y += cat.dy;
 
@@ -142,6 +150,7 @@ function updateCat() {
         gameOver = true;
         running = false;
         showGameOver();
+        hitSound.play();
     }
 
     if (cat.y + cat.height > canvas.height) {
@@ -150,6 +159,7 @@ function updateCat() {
         gameOver = true;
         running = false;
         showGameOver();
+        hitSound.play();
 
     }
 
@@ -163,13 +173,14 @@ function drawScore() {
 
 function collisionDetection() {
     pipes.forEach(pipe => {
-        const hitX = cat.x + cat.width > pipe.x && cat.x < pipe.x +     pipe.width;
+        const hitX = cat.x + cat.width > pipe.x && cat.x < pipe.x + pipe.width;
         const hitTop = cat.y < pipe.gapY;
         const hitBottom = cat.y + cat.height > pipe.gapY + pipe.gapHeight;
         if (hitX && (hitTop || hitBottom)) {
             gameOver = true;
             running = false;
             showGameOver();
+            hitSound.play();
         }
     });
 }
@@ -220,9 +231,11 @@ startBtnEl.addEventListener('click', () => {
     gameScreen.style.display = 'flex';
     showClickMessage();
     drawCat();
+    catSound.play();
 });
 
 clickMessageEl.addEventListener('click', () => {
+    GameMusic.play();
     hideClickMessage();
     cat.y = 190;
     cat.dy = 0;
@@ -263,22 +276,27 @@ homeBtnEl.addEventListener('click', () => {
 
 });
 
-insructionBtnEl.addEventListener('click',showInstructionDivEl);
+insructionBtnEl.addEventListener('click', showInstructionDivEl)
 
-closeBtnEl.addEventListener('click',hideInstructionDiveEl)
+closeBtnEl.addEventListener('click', hideInstructionDiveEl)
+
 instructionDivEl.addEventListener('click', (e) => {
-    if (e.target === instructionDivEl){
+    if (e.target === instructionDivEl) {
         hideInstructionDiveEl();
+
     }
 });
 
 document.addEventListener('keydown', (e) => {
-        if (instructionDivEl.style.display === 'flex') return;
+    if (instructionDivEl.style.display === 'flex') return;
     if (e.code === "Space" && clickMessageEl.style.display === 'block') {
         clickMessageEl.click();
     } else if (running) {
         jump();
+
     }
+    jumpSound.play();
+
 });
 
 
@@ -286,9 +304,10 @@ document.addEventListener('mousedown', (e) => {
     if (instructionDivEl.style.display === 'flex' || !running) return;
     if (gameScreen.style.display === 'flex' && e.target === canvas) {
         jump();
+
+
     }
+    jumpSound.play();
+
 });
 
-
-// const ass=new Audio("")
-// ass.play()

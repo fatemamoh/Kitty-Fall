@@ -86,7 +86,8 @@ body {
     color: #a54410;
     font-size: 10px;
     text-align: center;
-    margin: 0 100px;
+    /* margin: 0 100px; */
+    margin: 0 30px;
     line-height: 2;
     padding: 15px;
     background-color: #ffd4bdc4;
@@ -114,49 +115,56 @@ body {
     font-size: 10px;
     text-align: center;
     margin: 0 auto;
-    /* margin: 10px 0; */
     padding: 10px;
 }
 
-/* .instruction {
+
+.instruction {
     font-family: "Press Start 2P";
-    background-color: #f8d5c0;
-    color: rgb(171, 87, 3);
-    padding: 20px 25px;
-    font-size: 12px;
-    border-radius: 8px;
-    border: 1px solid #a54410;
-    border: none;
-    cursor: url('../assets/cursorSmall.png'), auto;
-    transition: transform 0.1s;
-    margin: 20px;
-    box-shadow: 0 10px 30px rgba(2, 2, 0, 0.2);
-
-} */
-
-.instruction{
+    color: #853605;
     border: none;
     outline: 1px dotted rgb(37, 37, 37);
-  outline-offset: -4px;
-  cursor: pointer;
-  background: #FA881E;
-  box-shadow:
-    inset -1px -1px #292929,
-    inset 1px 1px #fff,
-    inset -2px -2px #FA881E,
-    inset 2px 2px #ffffff;
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  padding: 5px 30px;
+    outline-offset: -4px;
+    background: #F5D5C3ff;
+    box-shadow:
+        inset -1px -1px #292929,
+        inset 1px 1px #fff,
+        inset -2px -2px #FA881E,
+        inset 2px 2px #ffffff;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 15px 20px;
+    margin: 20px 0 20px;
+    cursor: url('../assets/cursorSmall.png'), auto;
+        border-radius: 8px;
+
 }
 
-.instruction:active {
-  box-shadow:
-    inset -1px -1px #fff,
-    inset 1px 1px #292929,
-    inset -2px -2px #ffffff,
-    inset 2px 2px rgb(158, 158, 158);
+.closeBtn {
+    font-family: 'Press Start 2P';
+    padding: 10px 20px;
+    font-size: 10px;
+    margin-top: 20px;
+    border: 2px solid #783511;
+    border-radius: 8px;
+    background-color: #e6a23c;
+    color: #3c1106;
+    cursor: url('../assets/cursorSmall.png'), auto;
+    transition: background-color 0.2s transform 0.1s;
+      box-shadow:
+        inset -1px -1px #292929,
+        inset 1px 1px #fff,
+        inset -2px -2px #FA881E,
+        inset 2px 2px #ffffff;
+}
+
+.instruction:active, .closeBtn:active  {
+    box-shadow:
+        inset -1px -1px #fff,
+        inset 1px 1px #292929,
+        inset -2px -2px #ffffff,
+        inset 2px 2px rgb(158, 158, 158);
 }
 
 
@@ -207,7 +215,6 @@ body {
 }
 
 .rules {
-    /* font-weight: bold; */
     color: #a54410;
     display: inline-block;
     min-width: 60px;
@@ -258,8 +265,8 @@ li {
     left: 50%;
     transform: translate(-50%, -10%);
     font-family: "Press Start 2P", monospace;
-    color: rgb(73, 6, 53);
-    background-color: rgb(233, 199, 236, 0.90);
+    color: #783511;
+    background-color: #f8d5c0;
     border: 1px solid rgb(73, 12, 72);
     text-align: center;
     font-size: 10px;
@@ -267,6 +274,20 @@ li {
     cursor: url('../assets/cursorSmall.png'), auto;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+box-shadow:
+        inset -1px -1px #292929,
+        inset 1px 1px #fff,
+        inset -2px -2px #FA881E,
+        inset 2px 2px #ffffff;
+}
+
+#clickMessage:active{
+    
+    box-shadow:
+        inset -1px -1px #fff,
+        inset 1px 1px #292929,
+        inset -2px -2px #ffffff,
+        inset 2px 2px rgb(158, 158, 158);
 
 }
 
@@ -307,6 +328,11 @@ li {
     cursor: url('../assets/cursorSmall.png'), auto;
     transition: transform 0.1s;
     margin: 5px;
+    box-shadow:
+        inset -1px -1px #292929,
+        inset 1px 1px #fff,
+        inset -2px -2px #FA881E,
+        inset 2px 2px #ffffff;
 }
 
 #home {
@@ -320,6 +346,19 @@ li {
     cursor: url('../assets/cursorSmall.png'), auto;
     transition: transform 0.1s;
     margin: 5px;
+    box-shadow:
+        inset -1px -1px #292929,
+        inset 1px 1px #fff,
+        inset -2px -2px #FA881E,
+        inset 2px 2px #ffffff;
+}
+
+#playAGain:active, #home:active {
+    box-shadow:
+        inset -1px -1px #fff,
+        inset 1px 1px #292929,
+        inset -2px -2px #ffffff,
+        inset 2px 2px rgb(158, 158, 158);
 }
 
 #playAgain:hover,
