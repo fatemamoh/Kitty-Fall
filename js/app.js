@@ -3,23 +3,6 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const gravity = 0.5;
 const jumping = -8;
-
-// images upload:
-const backgroundImg = new Image();
-backgroundImg.src = './assets/sunflower.jpg';
-
-const catImg = new Image();
-catImg.src = './assets/orange.png';
-
-const pipeImg = new Image();
-pipeImg.src = './assets/pipes.purple.png';
-
-//sounds:
-const clickSound = new Audio('./assets/click.mp3');
-const catSound = new Audio('./assets/catSound.mp3');
-const GameMusic = new Audio('./assets/gameMusic.mp3');
-const jumpSound = new Audio('./assets/jump.mp3');
-const hitSound = new Audio('./assets/hitSound.mp3');
 /*-------------------------------- Variables --------------------------------*/
 let cat = {
     x: 60,
@@ -29,13 +12,18 @@ let cat = {
     dy: 0
 };
 
-let running = false;
-let gameOver = false;
+let pipes = [];
 let score = 0;
 let backGWidth = 0;
 let scrollSpeed = 1.5;
-let pipes = [];
-
+let running = false;
+let gameOver = false;
+/*-------------------------------- Audio --------------------------------*/
+const clickSound = new Audio('./assets/click.mp3');
+const catSound = new Audio('./assets/catSound.mp3');
+const gameMusic = new Audio('./assets/gameMusic.mp3');
+const jumpSound = new Audio('./assets/jump.mp3');
+const hitSound = new Audio('./assets/hitSound.mp3');
 /*------------------------ Cached Element References ------------------------*/
 const homeScreen = document.querySelector('#homeScreen');
 const gameScreen = document.querySelector('#gameScreen');
@@ -44,15 +32,29 @@ const gameOverBox = document.querySelector('#gameOverBox');
 const gameOverMessageEl = document.querySelector('#gameOverMessage');
 const playAgainBtnEl = document.querySelector('#playAgain');
 const clickMessageEl = document.querySelector('#clickMessage');
-const homeBtnEl = document.querySelector('#home')
+const homeBtnEl = document.querySelector('#home');
 const scoreEnd = document.querySelector('#score');
-const insructionBtnEl = document.querySelector('.instruction')
-const instructionDivEl = document.querySelector('#instructionDiv')
-const closeBtnEl = document.querySelector('#closeBtnInstruction')
+const insructionBtnEl = document.querySelector('.instruction');
+const instructionDivEl = document.querySelector('#instructionDiv');
+const closeBtnEl = document.querySelector('#closeBtnInstruction');
+/*-------------------------------- Images --------------------------------*/
+const backgroundImg = new Image();
+backgroundImg.src = './assets/sunflower.jpg';
+const catImg = new Image();
+catImg.src = './assets/orange.png';
+const pipeImg = new Image();
+pipeImg.src = './assets/pipes.purple.png';
 /*-------------------------------- Functions --------------------------------*/
+
+function drawCat() {
+    ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
+
+}
 function showGameOver() {
     gameOverBox.style.display = 'block';
     drawScoreEnd();
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
 }
 
 function hideGameOver() {
@@ -127,13 +129,6 @@ function drawPipes() {
         ctx.drawImage(pipeImg, pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - (pipe.gapY + pipe.gapHeight));
     });
 }
-
-
-function drawCat() {
-    ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
-
-}
-
 
 function jump() {
     if (running) cat.dy = jumping;
@@ -235,7 +230,7 @@ startBtnEl.addEventListener('click', () => {
 });
 
 clickMessageEl.addEventListener('click', () => {
-    GameMusic.play();
+    gameMusic.play();
     hideClickMessage();
     cat.y = 190;
     cat.dy = 0;
@@ -258,8 +253,8 @@ playAgainBtnEl.addEventListener('click', () => {
     startBtnEl.style.display = 'none';
     gameOver = false;
     running = true;
+    clickSound.play();
     gameLoop();
-
 });
 
 homeBtnEl.addEventListener('click', () => {
@@ -273,7 +268,9 @@ homeBtnEl.addEventListener('click', () => {
     score = 0;
     cat.y = 190;
     cat.dy = 0;
-
+    clickSound.play();
+    gameMusic.pause();
+    gameMusic.currentTime = 0;
 });
 
 insructionBtnEl.addEventListener('click', showInstructionDivEl)
@@ -293,9 +290,9 @@ document.addEventListener('keydown', (e) => {
         clickMessageEl.click();
     } else if (running) {
         jump();
+        jumpSound.play();
 
     }
-    jumpSound.play();
 
 });
 
@@ -304,10 +301,9 @@ document.addEventListener('mousedown', (e) => {
     if (instructionDivEl.style.display === 'flex' || !running) return;
     if (gameScreen.style.display === 'flex' && e.target === canvas) {
         jump();
-
+        jumpSound.play();
 
     }
-    jumpSound.play();
 
 });
 
