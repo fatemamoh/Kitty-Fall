@@ -93,7 +93,21 @@ body {
     border-radius: 10px;
 }
 
-#start {
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px) scale(1.05);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.startBtn {
     background-image: url('../assets/orange.png');
     background-size: contain;
     background-position: center;
@@ -103,9 +117,18 @@ body {
     font-size: 18px;
     width: 100%;
     border: none;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s ease-in-out;
+    transition: transform 0.3s;
     cursor: url("../assets/cursorSmall.png"), auto;
 }
+
+
+#start:active {
+    transform: scale(0.9) rotate(-5deg) translate(2px, 2px);
+    box-shadow: none;
+}
+
+
 
 .clickCat {
     font-family: "Press Start 2P";
@@ -131,7 +154,6 @@ body {
         inset -2px -2px #FA881E,
         inset 2px 2px #ffffff;
     font-size: 12px;
-    text-transform: uppercase;
     letter-spacing: 1px;
     padding: 15px 20px;
     margin: 20px 0 20px;

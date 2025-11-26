@@ -34,7 +34,7 @@ const playAgainBtnEl = document.querySelector('#playAgain');
 const clickMessageEl = document.querySelector('#clickMessage');
 const homeBtnEl = document.querySelector('#home');
 const scoreEnd = document.querySelector('#score');
-const insructionBtnEl = document.querySelector('.instruction');
+const instructionBtnEl = document.querySelector('.instruction');
 const instructionDivEl = document.querySelector('#instructionDiv');
 const closeBtnEl = document.querySelector('#closeBtnInstruction');
 /*-------------------------------- Images --------------------------------*/
@@ -45,16 +45,12 @@ catImg.src = './assets/orange.png';
 const pipeImg = new Image();
 pipeImg.src = './assets/pipes.purple.png';
 /*-------------------------------- Functions --------------------------------*/
-
-function drawCat() {
-    ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
-
-}
 function showGameOver() {
     gameOverBox.style.display = 'block';
     drawScoreEnd();
     gameMusic.pause();
     gameMusic.currentTime = 0;
+    hitSound.play();
 }
 
 function hideGameOver() {
@@ -73,9 +69,14 @@ function showInstructionDivEl() {
     clickSound.play();
 }
 
-function hideInstructionDiveEl() {
+function hideInstructionDivEl() {
     instructionDivEl.style.display = 'none'
     clickSound.play();
+
+}
+
+function drawCat() {
+    ctx.drawImage(catImg, cat.x, cat.y, cat.width, cat.height);
 
 }
 
@@ -109,6 +110,13 @@ function createPipe() {
     }
 }
 
+function drawPipes() {
+    pipes.forEach(pipe => {
+        ctx.drawImage(pipeImg, pipe.x, 0, pipe.width, pipe.gapY);
+        ctx.drawImage(pipeImg, pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - (pipe.gapY + pipe.gapHeight));
+    });
+}
+
 function updatePipes() {
     pipes.forEach((pipe, index) => {
         pipe.x -= pipe.speed;
@@ -120,13 +128,6 @@ function updatePipes() {
             pipe.passed = true;
             score++;
         }
-    });
-}
-
-function drawPipes() {
-    pipes.forEach(pipe => {
-        ctx.drawImage(pipeImg, pipe.x, 0, pipe.width, pipe.gapY);
-        ctx.drawImage(pipeImg, pipe.x, pipe.gapY + pipe.gapHeight, pipe.width, canvas.height - (pipe.gapY + pipe.gapHeight));
     });
 }
 
@@ -145,7 +146,6 @@ function updateCat() {
         gameOver = true;
         running = false;
         showGameOver();
-        hitSound.play();
     }
 
     if (cat.y + cat.height > canvas.height) {
@@ -154,17 +154,14 @@ function updateCat() {
         gameOver = true;
         running = false;
         showGameOver();
-        hitSound.play();
-
     }
-
-}
+};
 
 function drawScore() {
     ctx.font = '12px "Press Start 2P" '
     ctx.fillStyle = '#f4e5cfff'
     ctx.fillText(`Score: ${score}`, 10, 20);
-}
+};
 
 function collisionDetection() {
     pipes.forEach(pipe => {
@@ -175,10 +172,9 @@ function collisionDetection() {
             gameOver = true;
             running = false;
             showGameOver();
-            hitSound.play();
         }
-    });
-}
+    })
+};
 
 function drawScoreEnd() {
     scoreEnd.innerText = (` Score: ${score}`);
@@ -227,6 +223,7 @@ startBtnEl.addEventListener('click', () => {
     showClickMessage();
     drawCat();
     catSound.play();
+    gameMusic.play();
 });
 
 clickMessageEl.addEventListener('click', () => {
@@ -247,6 +244,7 @@ playAgainBtnEl.addEventListener('click', () => {
     cat.dy = 0;
     score = 0;
     pipes = [];
+    scrollSpeed = 1.5;
     hideGameOver();
     gameScreen.style.display = "flex";
     homeScreen.style.display = "none";
@@ -254,6 +252,7 @@ playAgainBtnEl.addEventListener('click', () => {
     gameOver = false;
     running = true;
     clickSound.play();
+    gameMusic.play();
     gameLoop();
 });
 
@@ -268,18 +267,19 @@ homeBtnEl.addEventListener('click', () => {
     score = 0;
     cat.y = 190;
     cat.dy = 0;
+    scrollSpeed = 1.5;
     clickSound.play();
     gameMusic.pause();
     gameMusic.currentTime = 0;
 });
 
-insructionBtnEl.addEventListener('click', showInstructionDivEl)
+instructionBtnEl.addEventListener('click', showInstructionDivEl)
 
-closeBtnEl.addEventListener('click', hideInstructionDiveEl)
+closeBtnEl.addEventListener('click', hideInstructionDivEl)
 
 instructionDivEl.addEventListener('click', (e) => {
     if (e.target === instructionDivEl) {
-        hideInstructionDiveEl();
+        hideInstructionDivEl();
 
     }
 });
